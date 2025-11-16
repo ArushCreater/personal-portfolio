@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Dev Portfolio // ASIC</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap');
+
+        :root {
+            --paper: #fdfbf7;
+            --ink: #18181b;
+            --accent-1: #ff6b6b; /* Retro Red */
+            --accent-2: #4ecdc4; /* Retro Teal */
+            --accent-3: #ffe66d; /* Retro Yellow */
+        }
+
+        body {
+            background-color: var(--paper);
+            color: var(--ink);
+            font-family: 'Space Mono', monospace;
+            background-image: radial-gradient(#e5e5e5 1px, transparent 1px);
+            background-size: 20px 20px;
+            overflow-x: hidden;
+        }
+
+        .font-display {
+            font-family: 'Syne', sans-serif;
+        }
+
+        .font-hand {
+            font-family: 'Patrick Hand', cursive;
+        }
+
+        /* Neo-Brutalist / Hand-Drawn Classes */
+        .sketchy-box {
+            border: 3px solid var(--ink);
+            border-radius: 2px;
+            box-shadow: 5px 5px 0px var(--ink);
+            transition: all 0.2s ease;
+            background: white;
+        }
+
+        .sketchy-box:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0px var(--ink);
+        }
+
+        .sketchy-box:active {
+            transform: translate(2px, 2px);
+            box-shadow: 0px 0px 0px var(--ink);
+        }
+
+        .sketchy-btn {
+            border: 3px solid var(--ink);
+            border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+            transition: all 0.2s ease;
+        }
+        .sketchy-btn:hover {
+            border-radius: 15px 225px 15px 255px / 255px 15px 225px 15px;
+            transform: scale(1.02);
+            background-color: var(--ink);
+            color: var(--paper);
+        }
+
+        /* Handwritten Scribble Animations */
+        @keyframes scribble {
+            0% { border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; }
+            50% { border-radius: 15px 225px 15px 255px / 255px 15px 225px 15px; }
+            100% { border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; }
+        }
+
+        .animate-scribble {
+            animation: scribble 4s infinite ease-in-out;
+        }
+
+        /* CSS Cloud Shape for Hero */
+        .cloud-shape {
+            background: white;
+            border: 3px solid var(--ink);
+            position: relative;
+            border-radius: 50%;
+            box-shadow: 8px 8px 0px var(--ink);
+        }
+        .cloud-shape::after, .cloud-shape::before {
+            content: '';
+            position: absolute;
+            background: white;
+            z-index: -1;
+        }
+
+        /* Utilities */
+        .highlight-yellow {
+            background: linear-gradient(120deg, rgba(255, 230, 109, 0) 0%, rgba(255, 230, 109, 1) 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 40%;
+            background-position: 0 88%;
+        }
+
+        .marker-underline {
+            position: relative;
+            display: inline-block;
+        }
+        .marker-underline::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 100%;
+            height: 6px;
+            background: var(--accent-2);
+            z-index: -1;
+            transform: skew(-10deg) rotate(-2deg);
+            opacity: 0.6;
+        }
+
+        /* Mobile Menu Styles */
+        #mobile-menu {
+            transition: transform 0.3s ease-in-out;
+            transform: translateY(-100%);
+        }
+        #mobile-menu.open {
+            transform: translateY(0);
+        }
+
+        /* Utility for Text Fade */
+        .fade-text {
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+        .opacity-0-y-4 {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        /* Typewriter Cursor */
+        .cursor::after {
+            content: '█';
+            margin-left: 4px;
+            opacity: 1;
+            animation: blink 1s infinite;
+            color: #ea580c; /* Retro Orange */
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body class="selection:bg-black selection:text-white">
+
+    <!-- Navigation -->
+    <nav id="nav-wrapper" class="fixed top-0 w-full z-50 flex justify-center transition-[padding] duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]">
+        <div id="navbar" class="w-[100%] bg-[#fdfbf7]/95 border-b-2 border-t-0 border-x-0 border-black backdrop-blur-md px-6 py-4 flex justify-between items-center transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] max-w-full mx-auto">
+            <a href="#" class="text-2xl font-bold font-display tracking-tighter flex items-center gap-2 z-50 relative">
+                <span class="w-4 h-4 bg-black rounded-full"></span>
+                ARUSH_DEV
+            </a>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-8 text-sm font-bold tracking-tight">
+                <a href="#work" class="hover:underline decoration-2 underline-offset-4 decoration-teal-400">WORK</a>
+                <a href="#about" class="hover:underline decoration-2 underline-offset-4 decoration-teal-400">ABOUT</a>
+                <a href="#contact" class="hover:underline decoration-2 underline-offset-4 decoration-teal-400">CONTACT</a>
+            </div>
+
+            <a href="#contact" class="hidden md:block px-5 py-2 font-bold text-sm border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all bg-white rounded-lg">
+                SAY HELLO
+            </a>
+
+            <!-- Mobile Menu Button -->
+            <button id="menu-btn" class="md:hidden z-50 p-2 focus:outline-none">
+                <i data-lucide="menu" class="w-8 h-8"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Overlay (Attached to body/viewport to avoid clipping in nav) -->
+        <div id="mobile-menu" class="fixed inset-0 bg-[#fdfbf7] z-40 flex flex-col justify-center items-center space-y-8 md:hidden border-b-2 border-black transition-transform duration-300 translate-y-[-100%]">
+            <a href="#work" class="text-3xl font-display font-bold hover:text-[#4ecdc4]" onclick="toggleMenu()">WORK</a>
+            <a href="#about" class="text-3xl font-display font-bold hover:text-[#4ecdc4]" onclick="toggleMenu()">ABOUT</a>
+            <a href="#contact" class="text-3xl font-display font-bold hover:text-[#4ecdc4]" onclick="toggleMenu()">CONTACT</a>
+            <div class="border-t-2 border-black w-24"></div>
+            <a href="#contact" class="px-8 py-3 font-bold text-lg border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white" onclick="toggleMenu()">
+                SAY HELLO
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="min-h-screen flex flex-col justify-center items-center pt-20 px-4 md:px-6 relative overflow-hidden">
+        
+        <!-- Decor Elements (Hidden on mobile to clean up view) -->
+        <div class="hidden md:flex absolute top-32 left-10 w-12 h-12 border-2 border-black rounded-full items-center justify-center font-bold animate-bounce bg-[#ff6b6b]">
+            <i data-lucide="code-2" class="w-6 h-6 text-white"></i>
+        </div>
+        <div class="hidden md:block absolute bottom-32 right-10 w-16 h-16 border-2 border-black rotate-12 bg-[#ffe66d] shadow-[4px_4px_0px_black]"></div>
+
+        <div class="max-w-6xl mx-auto text-center relative z-10">
+            <p class="font-hand text-xl md:text-3xl text-slate-600 mb-4 -rotate-2">
+                Hey, I'm Arush, a Cloud Dev at ASIC <i data-lucide="arrow-down-right" class="inline w-5 h-5 md:w-6 md:h-6"></i>
+            </p>
+            
+            <!-- Animated Heading -->
+            <h1 id="hero-container" class="font-display font-black leading-[0.9] mb-8 min-h-[2.2em] transition-all duration-300">
+                <span id="hero-text-1" class="block"></span>
+                <span id="hero-text-2" class="text-white text-stroke-1 md:text-stroke-3 text-stroke-black block" style="-webkit-text-stroke: 2px black;"></span>
+            </h1>
+            
+            <div class="flex flex-col md:flex-row justify-center items-center gap-6 mt-4 md:mt-8">
+                <div class="bg-white border-2 border-black p-4 max-w-[280px] md:max-w-xs text-left shadow-[6px_6px_0px_black] md:shadow-[8px_8px_0px_black] rotate-1">
+                    <p class="font-bold text-xs uppercase mb-2 border-b-2 border-black pb-1 inline-block">Current Status</p>
+                    <p class="text-sm leading-tight">
+                        CS Student at <span class="font-bold bg-yellow-200 px-1">UTS</span>.<br>
+                        Building <span class="font-bold text-[#c084fc]">Engram</span>.<br>
+                        Cloud Engineering at ASIC.
+                    </p>
+                </div>
+
+                <a href="#work" class="sketchy-btn px-8 py-4 bg-black text-white font-bold text-lg flex items-center gap-2 group">
+                    SEE MY WORK 
+                    <i data-lucide="arrow-right" class="group-hover:translate-x-1 transition-transform"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Marquee Separator -->
+    <div class="border-y-4 border-black bg-[#4ecdc4] overflow-hidden py-3 rotate-1 scale-105">
+        <div class="whitespace-nowrap animate-marquee inline-flex gap-8 font-display font-black text-xl md:text-2xl text-white uppercase tracking-wider" style="text-shadow: 2px 2px 0px black;">
+            <span>AWS Lambda</span> <span>//</span>
+            <span>Terraform</span> <span>//</span>
+            <span>Python</span> <span>//</span>
+            <span>Rust</span> <span>//</span>
+            <span>CI/CD Pipelines</span> <span>//</span>
+            <span>Distributed Systems</span> <span>//</span>
+            <span>AWS Lambda</span> <span>//</span>
+            <span>Terraform</span> <span>//</span>
+            <span>Python</span> <span>//</span>
+        </div>
+    </div>
+
+    <!-- Projects Section -->
+    <section id="work" class="py-16 md:py-24 px-4 md:px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 md:mb-16 gap-4">
+                <div>
+                    <h2 class="font-display text-4xl md:text-7xl font-bold mb-4 marker-underline">Projects</h2>
+                    <p class="font-hand text-lg md:text-xl text-slate-600 mt-2">Stuff I've built at uni & in my free time.</p>
+                </div>
+                <div class="font-mono text-xs border-2 border-black px-2 py-1 bg-white shadow-[3px_3px_0px_black]">
+                    git commit -m "Initial Commit"
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 md:gap-12">
+                
+                <!-- Project 1 -->
+                <div class="sketchy-box p-0 group">
+                    <div class="bg-slate-100 border-b-2 border-black p-8 flex items-center justify-center h-40 md:h-48 overflow-hidden relative">
+                        <div class="absolute inset-0 bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:16px_16px] opacity-20"></div>
+                        <i data-lucide="cloud-lightning" class="w-16 h-16 md:w-20 md:h-20 text-black group-hover:scale-110 transition-transform duration-300"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display text-2xl font-bold mb-2">Serverless API Gateway</h3>
+                        <div class="flex gap-2 mb-4 text-xs font-bold">
+                            <span class="bg-[#ff6b6b] text-white px-2 py-1 border border-black">AWS</span>
+                            <span class="bg-white px-2 py-1 border border-black">Terraform</span>
+                        </div>
+                        <p class="text-sm mb-6 leading-relaxed">
+                            A scalable microservices architecture. Handled 10k+ requests/sec. 
+                            Used strictly Infrastructure as Code principles.
+                        </p>
+                        <a href="#" class="inline-flex items-center gap-2 font-bold hover:underline decoration-2 underline-offset-4">
+                            View Source <i data-lucide="github" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="sketchy-box p-0 group mt-0 md:mt-0">
+                    <div class="bg-slate-100 border-b-2 border-black p-8 flex items-center justify-center h-40 md:h-48 overflow-hidden relative">
+                        <div class="absolute inset-0 bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:16px_16px] opacity-20"></div>
+                        <i data-lucide="shield-check" class="w-16 h-16 md:w-20 md:h-20 text-black group-hover:scale-110 transition-transform duration-300"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display text-2xl font-bold mb-2">SecureVault CLI</h3>
+                        <div class="flex gap-2 mb-4 text-xs font-bold">
+                            <span class="bg-[#4ecdc4] text-white px-2 py-1 border border-black">Rust</span>
+                            <span class="bg-white px-2 py-1 border border-black">Crypto</span>
+                        </div>
+                        <p class="text-sm mb-6 leading-relaxed">
+                            A Rust-based CLI for encrypting local environment variables. 
+                            AES-256 encryption with system keychain integration.
+                        </p>
+                        <a href="#" class="inline-flex items-center gap-2 font-bold hover:underline decoration-2 underline-offset-4">
+                            View Source <i data-lucide="github" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="sketchy-box p-0 group">
+                    <div class="bg-slate-100 border-b-2 border-black p-8 flex items-center justify-center h-40 md:h-48 overflow-hidden relative">
+                        <div class="absolute inset-0 bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:16px_16px] opacity-20"></div>
+                        <i data-lucide="network" class="w-16 h-16 md:w-20 md:h-20 text-black group-hover:scale-110 transition-transform duration-300"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display text-2xl font-bold mb-2">Go Blockchain</h3>
+                        <div class="flex gap-2 mb-4 text-xs font-bold">
+                            <span class="bg-[#ffe66d] text-black px-2 py-1 border border-black">Go</span>
+                            <span class="bg-white px-2 py-1 border border-black">P2P</span>
+                        </div>
+                        <p class="text-sm mb-6 leading-relaxed">
+                            A simplified ledger implementation to understand consensus. 
+                            Features Proof-of-Work and node discovery.
+                        </p>
+                        <a href="#" class="inline-flex items-center gap-2 font-bold hover:underline decoration-2 underline-offset-4">
+                            View Source <i data-lucide="github" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- GitHub Stats -->
+                <div class="border-4 border-black border-dashed p-6 flex flex-col justify-center items-center text-center mt-4 md:mt-0 bg-[#fffcf5] rounded-[2rem]">
+                    <i data-lucide="github" class="w-12 h-12 mb-4"></i>
+                    <h3 class="font-display text-2xl md:text-3xl font-bold">Check my GitHub</h3>
+                    <p class="font-hand text-lg my-4">I commit code almost every day. It's kind of an addiction.</p>
+                    <a href="https://github.com/ArushCreater" class="font-bold bg-black text-white px-6 py-2 rounded-full hover:bg-slate-800 transition-colors">
+                        @ArushCreater
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline / About Section -->
+    <section id="about" class="py-16 md:py-24 px-4 md:px-6 border-t-2 border-black bg-white">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12 md:mb-16">
+                <span class="font-mono text-xs uppercase tracking-widest border-b border-black pb-1">Background</span>
+                <h2 class="font-display text-4xl md:text-6xl font-bold mt-4">My Path so Far</h2>
+            </div>
+
+            <!-- New About Me Text Section -->
+            <div class="mb-16 max-w-2xl mx-auto text-center">
+                <p class="text-lg md:text-xl leading-relaxed font-hand transform -rotate-1">
+                    "I'm a developer who loves peeling back the layers of complex systems. Whether it's cloud infrastructure or low-level algorithms, I'm obsessed with how things work."
+                </p>
+                <p class="mt-6 text-slate-600 text-sm md:text-base leading-relaxed font-mono">
+                    Currently balancing full-time studies with real-world cloud engineering. I thrive in environments where I can break things, fix them, and automate the solution so it never breaks again.
+                </p>
+            </div>
+
+            <div class="relative border-l-4 border-black ml-4 md:ml-0 space-y-12">
+                
+                <!-- Item 1: Engram (Startup) -->
+                <div class="relative pl-8 md:pl-24">
+                    <div class="absolute left-[-14px] top-2 w-6 h-6 bg-[#fb923c] border-4 border-black rounded-full"></div>
+                    <div class="flex flex-col md:flex-row gap-2 md:gap-4 items-start md:items-center mb-2">
+                        <h3 class="text-xl md:text-2xl font-bold font-display">ENGRAM</h3>
+                        <span class="font-mono text-xs bg-black text-white px-2 py-1">NOW</span>
+                    </div>
+                    <p class="font-bold text-lg mb-2">Startup Cofounder</p>
+                    <p class="text-slate-600 max-w-lg text-sm md:text-base">
+                        Building a startup called Engram. Focused on innovative tech solutions.
+                        (Ask me about it!)
+                    </p>
+                </div>
+
+                <!-- Item 2: ASIC -->
+                <div class="relative pl-8 md:pl-24">
+                    <div class="absolute left-[-14px] top-2 w-6 h-6 bg-[#4ecdc4] border-4 border-black rounded-full"></div>
+                    <div class="flex flex-col md:flex-row gap-2 md:gap-4 items-start md:items-center mb-2">
+                        <h3 class="text-xl md:text-2xl font-bold font-display">ASIC</h3>
+                        <span class="font-mono text-xs bg-black text-white px-2 py-1">NOW</span>
+                    </div>
+                    <p class="font-bold text-lg mb-2">Cloud Developer</p>
+                    <p class="text-slate-600 max-w-lg text-sm md:text-base">
+                        Ensuring the Australian financial infrastructure doesn't fall over. 
+                        Writing Terraform, managing AWS accounts, and automating everything in sight.
+                    </p>
+                </div>
+
+                <!-- Item 3: UTS -->
+                <div class="relative pl-8 md:pl-24">
+                    <div class="absolute left-[-14px] top-2 w-6 h-6 bg-[#ffe66d] border-4 border-black rounded-full"></div>
+                    <div class="flex flex-col md:flex-row gap-2 md:gap-4 items-start md:items-center mb-2">
+                        <h3 class="text-xl md:text-2xl font-bold font-display">UTS</h3>
+                        <span class="font-mono text-xs border border-black px-2 py-1">2024 - Present</span>
+                    </div>
+                    <p class="font-bold text-lg mb-2">B.Sc Computer Science</p>
+                    <p class="text-slate-600 max-w-lg text-sm md:text-base">
+                        First year student. High Distinction average. 
+                        Focusing on Algorithms, Data Structures, and drinking too much coffee.
+                    </p>
+                </div>
+
+                <!-- Item 4: HSC -->
+                <div class="relative pl-8 md:pl-24">
+                    <div class="absolute left-[-14px] top-2 w-6 h-6 bg-[#ff6b6b] border-4 border-black rounded-full"></div>
+                    <div class="flex flex-col md:flex-row gap-2 md:gap-4 items-start md:items-center mb-2">
+                        <h3 class="text-xl md:text-2xl font-bold font-display">HSC Graduate</h3>
+                        <span class="font-mono text-xs border border-black px-2 py-1">2023</span>
+                    </div>
+                    <p class="font-bold text-lg mb-2">ATAR: 90+</p>
+                    <p class="text-slate-600 max-w-lg text-sm md:text-base">
+                        Graduated with strong results across a STEM-focused workload.
+                    </p>
+                    <div class="mt-3 flex flex-wrap gap-2">
+                        <span class="text-xs font-bold border border-black px-2 py-1 bg-white rounded-sm shadow-[2px_2px_0px_black]">Math Ext 2</span>
+                        <span class="text-xs font-bold border border-black px-2 py-1 bg-white rounded-sm shadow-[2px_2px_0px_black]">Physics</span>
+                        <span class="text-xs font-bold border border-black px-2 py-1 bg-white rounded-sm shadow-[2px_2px_0px_black]">Chemistry</span>
+                        <span class="text-xs font-bold border border-black px-2 py-1 bg-white rounded-sm shadow-[2px_2px_0px_black]">Economics</span>
+                        <span class="text-xs font-bold border border-black px-2 py-1 bg-white rounded-sm shadow-[2px_2px_0px_black]">English Adv</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-16 md:py-24 px-6 bg-[#18181b] text-[#fdfbf7]">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-block border-2 border-[#fdfbf7] px-4 py-1 rounded-full font-mono text-sm mb-6 animate-bounce">
+                Let's Build Something
+            </div>
+            <h2 class="font-display text-4xl md:text-8xl font-bold mb-8">
+                GOT A <span class="text-transparent text-stroke-2 text-stroke-white" style="-webkit-text-stroke: 2px white;">PROJECT?</span>
+            </h2>
+            <p class="font-hand text-xl md:text-2xl text-slate-400 mb-12">
+                Or just want to talk about why Vim is better than VS Code?
+            </p>
+            
+            <div class="flex flex-col md:flex-row justify-center items-center gap-6 w-full max-w-3xl mx-auto">
+                <!-- Email Button -->
+                <a href="mailto:hello@example.com" class="whitespace-nowrap inline-block bg-[#ff6b6b] text-black border-2 border-[#fdfbf7] font-bold text-lg md:text-xl px-8 md:px-10 py-4 md:py-5 shadow-[6px_6px_0px_white] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_white] transition-all rounded-lg w-full md:w-auto text-center">
+                    SEND AN EMAIL
+                </a>
+                
+                <!-- Chat Input -->
+                <div class="relative w-full md:w-auto flex-grow max-w-md">
+                    <div class="relative flex items-stretch bg-white border-2 border-[#fdfbf7] rounded-lg shadow-[6px_6px_0px_white] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_white] transition-all">
+                        <div class="flex items-center px-4 bg-[#ffe66d] border-r-2 border-black rounded-l-md">
+                            <i data-lucide="bot" class="w-6 h-6 text-black"></i>
+                        </div>
+                        <input 
+                            type="text" 
+                            id="chat-input" 
+                            placeholder="Ask me a question..." 
+                            class="w-full px-4 py-4 md:py-5 bg-white outline-none font-hand text-xl text-black rounded-r-lg min-w-[200px]"
+                        >
+                        <button onclick="openAiChat()" class="px-6 bg-black text-white hover:bg-[#4ecdc4] hover:text-black transition-colors border-l-2 border-black rounded-r-md">
+                            <i data-lucide="arrow-right" class="w-6 h-6"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-center gap-8 mt-16">
+                <a href="https://github.com/ArushCreater" class="hover:text-[#4ecdc4] transition-colors"><i data-lucide="github" class="w-8 h-8"></i></a>
+                <a href="#" class="hover:text-[#4ecdc4] transition-colors"><i data-lucide="linkedin" class="w-8 h-8"></i></a>
+                <a href="#" class="hover:text-[#4ecdc4] transition-colors"><i data-lucide="twitter" class="w-8 h-8"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-6 text-center font-mono text-xs border-t-2 border-black bg-white">
+        <p>HAND-CODED IN 2025 // NO AI GENERATED IMAGES HERE ;)</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        let isMenuOpen = false;
+
+        function toggleMenu() {
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
+                mobileMenu.classList.remove('translate-y-[-100%]');
+                menuBtn.innerHTML = '<i data-lucide="x" class="w-8 h-8"></i>';
+            } else {
+                mobileMenu.classList.add('translate-y-[-100%]');
+                menuBtn.innerHTML = '<i data-lucide="menu" class="w-8 h-8"></i>';
+            }
+            lucide.createIcons();
+        }
+
+        menuBtn.addEventListener('click', toggleMenu);
+
+        // Dynamic Nav Animation
+        const navWrapper = document.getElementById('nav-wrapper');
+        const navbar = document.getElementById('navbar');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                // Scrolled State: Floating Pill
+                navWrapper.classList.add('pt-4');
+                
+                // Remove Initial States (Explicitly remove border constraints)
+                navbar.classList.remove('w-[100%]', 'border-b-2', 'rounded-none', 'max-w-full', 'border-t-0', 'border-x-0');
+                
+                // Add Scrolled States
+                navbar.classList.add(
+                    'w-[92%]', 'md:w-[85%]', 'max-w-6xl', // Size
+                    'rounded-2xl', 'border-2', // Shape (border-2 sets all sides to 2px)
+                    'shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]' // Pop-out shadow
+                );
+            } else {
+                // Top State: Full Bar
+                navWrapper.classList.remove('pt-4');
+                
+                // Remove Scrolled States
+                navbar.classList.remove(
+                    'w-[92%]', 'md:w-[85%]', 'max-w-6xl',
+                    'rounded-2xl', 'border-2',
+                    'shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
+                );
+                
+                // Add Initial States
+                navbar.classList.add('w-[100%]', 'border-b-2', 'rounded-none', 'max-w-full', 'border-t-0', 'border-x-0');
+            }
+        });
+
+        // Hero Typewriter Animation Logic
+        const heroPhrases = [
+            { line1: "CLOUD", line2: "DEV", size: "text-5xl sm:text-7xl md:text-9xl" },
+            { line1: "CS", line2: "STUDENT", size: "text-5xl sm:text-7xl md:text-9xl" },
+            { line1: "STARTUP", line2: "COFOUNDER", size: "text-4xl sm:text-6xl md:text-8xl" } // Reduced size to fit perfectly
+        ];
+
+        const container = document.getElementById('hero-container');
+        const text1 = document.getElementById('hero-text-1');
+        const text2 = document.getElementById('hero-text-2');
+        
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let lineState = 1; // 1 for line 1, 2 for line 2
+
+        function typeEffect() {
+            const currentPhrase = heroPhrases[phraseIndex];
+            
+            // Set Dynamic Size before typing starts
+            if (charIndex === 0 && !isDeleting && lineState === 1) {
+                 // Apply base classes + dynamic size class
+                 container.className = `font-display font-black leading-[0.9] mb-8 min-h-[2.2em] transition-all duration-300 ${currentPhrase.size}`;
+            }
+
+            let currentString = lineState === 1 ? currentPhrase.line1 : currentPhrase.line2;
+            let targetElement = lineState === 1 ? text1 : text2;
+
+            // Manage Cursor visibility
+            text1.classList.remove('cursor');
+            text2.classList.remove('cursor');
+            targetElement.classList.add('cursor');
+
+            if (isDeleting) {
+                // Deleting Logic
+                targetElement.textContent = currentString.substring(0, charIndex - 1);
+                charIndex--;
+                
+                if (charIndex === 0) {
+                    // Finished deleting this line
+                    if (lineState === 2) {
+                        lineState = 1; // Move to delete line 1
+                        charIndex = currentPhrase.line1.length;
+                        setTimeout(typeEffect, 50);
+                    } else {
+                        // Finished deleting entire phrase
+                        isDeleting = false;
+                        phraseIndex = (phraseIndex + 1) % heroPhrases.length;
+                        setTimeout(typeEffect, 500); // Small pause before new phrase
+                    }
+                } else {
+                    setTimeout(typeEffect, 30); // Deleting speed
+                }
+            } else {
+                // Typing Logic
+                targetElement.textContent = currentString.substring(0, charIndex + 1);
+                charIndex++;
+
+                if (charIndex === currentString.length) {
+                    // Finished typing this line
+                    if (lineState === 1) {
+                        lineState = 2; // Move to type line 2
+                        charIndex = 0;
+                        setTimeout(typeEffect, 100);
+                    } else {
+                        // Finished typing both lines
+                        isDeleting = true;
+                        setTimeout(typeEffect, 2000); // Wait 2 seconds before clearing
+                    }
+                } else {
+                    setTimeout(typeEffect, 100); // Typing speed
+                }
+            }
+        }
+
+        // Start the loop
+        typeEffect();
+
+        // Chat Input Logic
+        function openAiChat() {
+            const input = document.getElementById('chat-input');
+            // Opens the AI Chat website
+            window.open('https://arushsingh.com/', '_blank');
+            input.value = ''; // Reset the input field
+        }
+        
+        const chatInput = document.getElementById('chat-input');
+        if (chatInput) {
+            chatInput.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    openAiChat();
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>
