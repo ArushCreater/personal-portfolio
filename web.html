@@ -118,7 +118,7 @@
 
         /* Mobile Menu Styles */
         #mobile-menu {
-            transition: transform 0.3s ease-in-out;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             transform: translateY(-100%);
         }
         #mobile-menu.open {
@@ -147,13 +147,84 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
         }
+
+        /* Glitch Animation for Preloader */
+        .glitch-text {
+            position: relative;
+        }
+        .glitch-text::before, .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+        }
+        .glitch-text::before {
+            color: #ff00c1;
+            z-index: -1;
+            animation: glitch-anim-1 2s infinite linear alternate-reverse;
+        }
+        .glitch-text::after {
+            color: #00fff9;
+            z-index: -2;
+            animation: glitch-anim-2 2s infinite linear alternate-reverse;
+        }
+        @keyframes glitch-anim-1 {
+            0% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 0); }
+            20% { clip-path: inset(60% 0 10% 0); transform: translate(2px, 0); }
+            40% { clip-path: inset(40% 0 50% 0); transform: translate(-2px, 0); }
+            60% { clip-path: inset(80% 0 5% 0); transform: translate(2px, 0); }
+            80% { clip-path: inset(10% 0 70% 0); transform: translate(-2px, 0); }
+            100% { clip-path: inset(30% 0 50% 0); transform: translate(2px, 0); }
+        }
+        @keyframes glitch-anim-2 {
+            0% { clip-path: inset(10% 0 60% 0); transform: translate(2px, 0); }
+            20% { clip-path: inset(30% 0 20% 0); transform: translate(-2px, 0); }
+            40% { clip-path: inset(70% 0 20% 0); transform: translate(2px, 0); }
+            60% { clip-path: inset(20% 0 60% 0); transform: translate(-2px, 0); }
+            80% { clip-path: inset(50% 0 30% 0); transform: translate(2px, 0); }
+            100% { clip-path: inset(0% 0 80% 0); transform: translate(-2px, 0); }
+        }
     </style>
 </head>
-<body class="selection:bg-black selection:text-white">
+<body class="selection:bg-black selection:text-white overflow-hidden"> 
+<!-- Added overflow-hidden initially to prevent scrolling during preloader -->
+
+    <!-- PRELOADER -->
+    <div id="preloader" class="fixed inset-0 z-[100] bg-[#09090b] flex flex-col justify-center items-center text-[#fdfbf7] transition-transform duration-[1000ms] ease-[cubic-bezier(0.87,0,0.13,1)]">
+        
+        <!-- Glitch Title -->
+        <div class="relative mb-8 md:mb-12">
+            <div class="text-5xl md:text-7xl font-display font-black tracking-tighter glitch-text" data-text="ARUSH_DEV">
+                ARUSH_DEV
+            </div>
+        </div>
+        
+        <!-- Terminal Log Window -->
+        <div class="w-80 md:w-96 h-32 bg-black/50 border border-zinc-800 rounded-md p-3 font-mono text-[10px] md:text-xs text-green-500/80 overflow-hidden relative mb-6 shadow-2xl backdrop-blur-sm">
+            <div id="boot-log" class="absolute bottom-3 left-3 right-3 flex flex-col gap-1 transition-all duration-75">
+                <!-- Logs injected via JS -->
+            </div>
+            <!-- Scanline Overlay -->
+            <div class="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.25)_50%)] bg-[length:100%_3px] pointer-events-none"></div>
+            <div class="absolute top-2 right-2 w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="w-64 md:w-80 h-1 bg-zinc-800 rounded-full relative overflow-hidden">
+            <div id="loading-bar" class="h-full bg-[#4ecdc4] w-0 shadow-[0_0_15px_rgba(78,205,196,0.8)] rounded-full transition-all duration-75 ease-linear"></div>
+        </div>
+        
+        <div class="mt-3 font-mono text-[10px] text-zinc-500 uppercase tracking-[0.2em]" id="loading-text">
+            System Boot
+        </div>
+    </div>
 
     <!-- Navigation -->
     <nav id="nav-wrapper" class="fixed top-0 w-full z-50 flex justify-center transition-[padding] duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]">
-        <div id="navbar" class="w-[100%] bg-[#fdfbf7]/95 border-b-2 border-t-0 border-x-0 border-black backdrop-blur-md px-6 py-4 flex justify-between items-center transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] max-w-full mx-auto">
+        <div id="navbar" class="w-[100%] bg-[#fdfbf7]/95 border-b-2 border-t-0 border-x-0 border-black backdrop-blur-md px-6 py-4 flex justify-between items-center transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] max-w-full mx-auto z-50 relative">
             <a href="#" class="text-2xl font-bold font-display tracking-tighter flex items-center gap-2 z-50 relative">
                 <span class="w-4 h-4 bg-black rounded-full"></span>
                 ARUSH_DEV
@@ -163,6 +234,7 @@
             <div class="hidden md:flex space-x-8 text-sm font-bold tracking-tight">
                 <a href="#work" class="hover:underline decoration-2 underline-offset-4 decoration-teal-400">WORK</a>
                 <a href="#about" class="hover:underline decoration-2 underline-offset-4 decoration-teal-400">ABOUT</a>
+                <a href="#extras" class="hover:underline decoration-2 underline-offset-4 decoration-teal-400">EXTRAS</a>
                 <a href="#contact" class="hover:underline decoration-2 underline-offset-4 decoration-teal-400">CONTACT</a>
             </div>
 
@@ -171,25 +243,26 @@
             </a>
 
             <!-- Mobile Menu Button -->
-            <button id="menu-btn" class="md:hidden z-50 p-2 focus:outline-none">
-                <i data-lucide="menu" class="w-8 h-8"></i>
+            <button id="menu-btn" class="md:hidden z-50 p-2 focus:outline-none active:scale-95 transition-transform">
+                <i data-lucide="menu" class="w-8 h-8 pointer-events-none"></i>
             </button>
         </div>
 
-        <!-- Mobile Menu Overlay (Attached to body/viewport to avoid clipping in nav) -->
-        <div id="mobile-menu" class="fixed inset-0 bg-[#fdfbf7] z-40 flex flex-col justify-center items-center space-y-8 md:hidden border-b-2 border-black transition-transform duration-300 translate-y-[-100%]">
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="fixed inset-0 bg-[#fdfbf7] z-40 flex flex-col justify-center items-center space-y-8 md:hidden border-b-2 border-black pt-20">
             <a href="#work" class="text-3xl font-display font-bold hover:text-[#4ecdc4]" onclick="toggleMenu()">WORK</a>
             <a href="#about" class="text-3xl font-display font-bold hover:text-[#4ecdc4]" onclick="toggleMenu()">ABOUT</a>
+            <a href="#extras" class="text-3xl font-display font-bold hover:text-[#4ecdc4]" onclick="toggleMenu()">EXTRAS</a>
             <a href="#contact" class="text-3xl font-display font-bold hover:text-[#4ecdc4]" onclick="toggleMenu()">CONTACT</a>
             <div class="border-t-2 border-black w-24"></div>
-            <a href="#contact" class="px-8 py-3 font-bold text-lg border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white" onclick="toggleMenu()">
+            <a href="#contact" class="px-8 py-3 font-bold text-lg border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all" onclick="toggleMenu()">
                 SAY HELLO
             </a>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <header class="min-h-screen flex flex-col justify-center items-center pt-20 px-4 md:px-6 relative overflow-hidden">
+    <header class="min-h-screen flex flex-col justify-center items-center pt-24 md:pt-20 px-4 md:px-6 relative overflow-hidden">
         
         <!-- Decor Elements (Hidden on mobile to clean up view) -->
         <div class="hidden md:flex absolute top-32 left-10 w-12 h-12 border-2 border-black rounded-full items-center justify-center font-bold animate-bounce bg-[#ff6b6b]">
@@ -197,19 +270,20 @@
         </div>
         <div class="hidden md:block absolute bottom-32 right-10 w-16 h-16 border-2 border-black rotate-12 bg-[#ffe66d] shadow-[4px_4px_0px_black]"></div>
 
-        <div class="max-w-6xl mx-auto text-center relative z-10">
+        <div class="max-w-6xl mx-auto text-center relative z-10 w-full">
             <p class="font-hand text-xl md:text-3xl text-slate-600 mb-4 -rotate-2">
                 Hey, I'm Arush, a Cloud Dev at ASIC <i data-lucide="arrow-down-right" class="inline w-5 h-5 md:w-6 md:h-6"></i>
             </p>
             
             <!-- Animated Heading -->
-            <h1 id="hero-container" class="font-display font-black leading-[0.9] mb-8 min-h-[2.2em] transition-all duration-300">
+            <!-- Added min-h to prevent layout shift, adjusted responsive size classes in JS -->
+            <h1 id="hero-container" class="font-display font-black leading-[0.9] mb-8 min-h-[180px] md:min-h-[2.2em] transition-all duration-300 flex flex-col justify-center">
                 <span id="hero-text-1" class="block"></span>
                 <span id="hero-text-2" class="text-white text-stroke-1 md:text-stroke-3 text-stroke-black block" style="-webkit-text-stroke: 2px black;"></span>
             </h1>
             
             <div class="flex flex-col md:flex-row justify-center items-center gap-6 mt-4 md:mt-8">
-                <div class="bg-white border-2 border-black p-4 max-w-[280px] md:max-w-xs text-left shadow-[6px_6px_0px_black] md:shadow-[8px_8px_0px_black] rotate-1">
+                <div class="bg-white border-2 border-black p-4 w-full max-w-[280px] md:max-w-xs text-left shadow-[6px_6px_0px_black] md:shadow-[8px_8px_0px_black] rotate-1 mx-auto">
                     <p class="font-bold text-xs uppercase mb-2 border-b-2 border-black pb-1 inline-block">Current Status</p>
                     <p class="text-sm leading-tight">
                         CS Student at <span class="font-bold bg-yellow-200 px-1">UTS</span>.<br>
@@ -218,7 +292,7 @@
                     </p>
                 </div>
 
-                <a href="#work" class="sketchy-btn px-8 py-4 bg-black text-white font-bold text-lg flex items-center gap-2 group">
+                <a href="#work" class="sketchy-btn px-8 py-4 bg-black text-white font-bold text-lg flex items-center gap-2 group w-full md:w-auto justify-center max-w-[280px] md:max-w-none">
                     SEE MY WORK 
                     <i data-lucide="arrow-right" class="group-hover:translate-x-1 transition-transform"></i>
                 </a>
@@ -259,6 +333,7 @@
                 <!-- Project 1 -->
                 <div class="sketchy-box p-0 group">
                     <div class="bg-slate-100 border-b-2 border-black p-8 flex items-center justify-center h-40 md:h-48 overflow-hidden relative">
+                        <!-- Abstract graphic for project -->
                         <div class="absolute inset-0 bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:16px_16px] opacity-20"></div>
                         <i data-lucide="cloud-lightning" class="w-16 h-16 md:w-20 md:h-20 text-black group-hover:scale-110 transition-transform duration-300"></i>
                     </div>
@@ -336,8 +411,84 @@
         </div>
     </section>
 
+    <!-- Extras Section -->
+    <section id="extras" class="py-16 md:py-24 px-4 md:px-6 bg-[#fffcf5] border-y-2 border-black">
+        <div class="max-w-6xl mx-auto">
+             <div class="mb-12 md:mb-16">
+                <h2 class="font-display text-3xl md:text-5xl font-bold mb-4 marker-underline inline-block">Extras & Achievements</h2>
+                <p class="font-hand text-lg md:text-xl text-slate-600 mt-2">Side quests, community work, and awards.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Item 1: Max Potential -->
+                <div class="sketchy-box p-6 md:p-8 relative bg-white group hover:-rotate-1 transition-transform duration-300">
+                    <div class="absolute -top-3 -right-3 bg-[#ff6b6b] border-2 border-black px-3 py-1 text-xs font-bold text-white transform rotate-3 shadow-[2px_2px_0px_black]">
+                        LEADERSHIP
+                    </div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="p-2 bg-blue-100 border-2 border-black rounded-full">
+                            <i data-lucide="waves" class="w-6 h-6 text-blue-600"></i>
+                        </div>
+                        <h3 class="font-display text-xl md:text-2xl font-bold">Max Potential Program</h3>
+                    </div>
+                    <p class="text-base leading-relaxed mb-2">
+                        Designed and led the <span class="font-bold bg-blue-100 px-1 border-b-2 border-blue-200">AI4Oceans</span> initiative.
+                    </p>
+                    <p class="text-slate-600 text-sm">
+                        Developed concepts for using Artificial Intelligence to optimize ocean cleanup strategies and identify pollution hotspots more effectively.
+                    </p>
+                </div>
+
+                <!-- Item 2: AWS Cert -->
+                <div class="sketchy-box p-6 md:p-8 relative bg-white group hover:rotate-1 transition-transform duration-300">
+                     <div class="absolute -top-3 -right-3 bg-[#4ecdc4] border-2 border-black px-3 py-1 text-xs font-bold text-white transform -rotate-2 shadow-[2px_2px_0px_black]">
+                        IN PROGRESS
+                    </div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="p-2 bg-orange-100 border-2 border-black rounded-full">
+                            <i data-lucide="award" class="w-6 h-6 text-orange-600"></i>
+                        </div>
+                        <h3 class="font-display text-xl md:text-2xl font-bold">AWS Solutions Architect</h3>
+                    </div>
+                    <p class="text-base leading-relaxed mb-2">
+                        Preparing for the Associate Certification.
+                    </p>
+                    <p class="text-slate-600 text-sm">
+                        Deepening my professional knowledge in designing resilient, high-performing, secure, and cost-optimized cloud architectures.
+                    </p>
+                </div>
+
+                <!-- Item 3: High School -->
+                <div class="sketchy-box p-6 md:p-8 relative bg-white group hover:rotate-1 transition-transform duration-300">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="p-2 bg-yellow-100 border-2 border-black rounded-full">
+                            <i data-lucide="graduation-cap" class="w-6 h-6 text-yellow-600"></i>
+                        </div>
+                        <h3 class="font-display text-xl md:text-2xl font-bold">High School Honour Roll</h3>
+                    </div>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Consistently recognized for academic excellence. Achieved Honour Roll status for maintaining high grades across STEM subjects including Physics, Chemistry, and Mathematics Extension 2.
+                    </p>
+                </div>
+
+                 <!-- Item 4: Volunteering -->
+                <div class="sketchy-box p-6 md:p-8 relative bg-white group hover:-rotate-1 transition-transform duration-300">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="p-2 bg-green-100 border-2 border-black rounded-full">
+                            <i data-lucide="sprout" class="w-6 h-6 text-green-600"></i>
+                        </div>
+                        <h3 class="font-display text-xl md:text-2xl font-bold">Clean Up Australia Day</h3>
+                    </div>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Active volunteer participant. Committed to environmental sustainability through local community cleanup events and awareness campaigns.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Timeline / About Section -->
-    <section id="about" class="py-16 md:py-24 px-4 md:px-6 border-t-2 border-black bg-white">
+    <section id="about" class="py-16 md:py-24 px-4 md:px-6 bg-white">
         <div class="max-w-4xl mx-auto">
             <div class="text-center mb-12 md:mb-16">
                 <span class="font-mono text-xs uppercase tracking-widest border-b border-black pb-1">Background</span>
@@ -480,19 +631,21 @@
         const mobileMenu = document.getElementById('mobile-menu');
         let isMenuOpen = false;
 
-        function toggleMenu() {
+        // Explicitly expose to window to ensure HTML onclick works
+        window.toggleMenu = function() {
             isMenuOpen = !isMenuOpen;
             if (isMenuOpen) {
-                mobileMenu.classList.remove('translate-y-[-100%]');
-                menuBtn.innerHTML = '<i data-lucide="x" class="w-8 h-8"></i>';
+                mobileMenu.classList.add('open');
+                menuBtn.innerHTML = '<i data-lucide="x" class="w-8 h-8 pointer-events-none"></i>';
             } else {
-                mobileMenu.classList.add('translate-y-[-100%]');
-                menuBtn.innerHTML = '<i data-lucide="menu" class="w-8 h-8"></i>';
+                mobileMenu.classList.remove('open');
+                menuBtn.innerHTML = '<i data-lucide="menu" class="w-8 h-8 pointer-events-none"></i>';
             }
+            // Re-render icons for the new HTML content
             lucide.createIcons();
         }
 
-        menuBtn.addEventListener('click', toggleMenu);
+        menuBtn.addEventListener('click', window.toggleMenu);
 
         // Dynamic Nav Animation
         const navWrapper = document.getElementById('nav-wrapper');
@@ -529,10 +682,11 @@
         });
 
         // Hero Typewriter Animation Logic
+        // ADJUSTED SIZES FOR MOBILE COMPATIBILITY
         const heroPhrases = [
             { line1: "CLOUD", line2: "DEV", size: "text-5xl sm:text-7xl md:text-9xl" },
             { line1: "CS", line2: "STUDENT", size: "text-5xl sm:text-7xl md:text-9xl" },
-            { line1: "STARTUP", line2: "COFOUNDER", size: "text-4xl sm:text-6xl md:text-8xl" } // Reduced size to fit perfectly
+            { line1: "STARTUP", line2: "COFOUNDER", size: "text-3xl sm:text-6xl md:text-8xl" } // Fixed: text-3xl on mobile
         ];
 
         const container = document.getElementById('hero-container');
@@ -550,7 +704,7 @@
             // Set Dynamic Size before typing starts
             if (charIndex === 0 && !isDeleting && lineState === 1) {
                  // Apply base classes + dynamic size class
-                 container.className = `font-display font-black leading-[0.9] mb-8 min-h-[2.2em] transition-all duration-300 ${currentPhrase.size}`;
+                 container.className = `font-display font-black leading-[0.9] mb-8 min-h-[180px] md:min-h-[2.2em] transition-all duration-300 flex flex-col justify-center ${currentPhrase.size}`;
             }
 
             let currentString = lineState === 1 ? currentPhrase.line1 : currentPhrase.line2;
@@ -603,8 +757,63 @@
             }
         }
 
-        // Start the loop
-        typeEffect();
+        // --- PRELOADER LOGIC ---
+        document.addEventListener("DOMContentLoaded", () => {
+            const bar = document.getElementById('loading-bar');
+            const logContainer = document.getElementById('boot-log');
+            const preloader = document.getElementById('preloader');
+            
+            // Tech Boot Commands for the log
+            const logs = [
+                "INITIALIZING KERNEL...",
+                "LOADING MODULES: [NET, FS, CRYPTO]...",
+                "MOUNTING VIRTUAL FILE SYSTEM...",
+                "ALLOCATING MEMORY BLOCKS: 0x40000...",
+                "CONNECTING TO AWS SYDNEY REGION...",
+                "HANDSHAKE ESTABLISHED [200 OK]",
+                "DECRYPTING PORTFOLIO DATA...",
+                "LOADING ASSETS: [IMAGES, FONTS]...",
+                "STARTING RENDER ENGINE...",
+                "SYSTEM READY."
+            ];
+            
+            let width = 0;
+            let logIndex = 0;
+            
+            const interval = setInterval(() => {
+                // Variable speed for realism
+                width += Math.random() * 2.5; 
+                if (width > 100) width = 100;
+                
+                bar.style.width = width + '%';
+                
+                // Log Logic
+                if (width > (logIndex + 1) * 10 && logIndex < logs.length) {
+                     const logEntry = document.createElement('div');
+                     logEntry.innerText = `> ${logs[logIndex]}`;
+                     logContainer.appendChild(logEntry);
+                     // Auto scroll to bottom
+                     logContainer.parentElement.scrollTop = logContainer.parentElement.scrollHeight;
+                     logIndex++;
+                }
+
+                if (width === 100) {
+                    clearInterval(interval);
+                    
+                    setTimeout(() => {
+                        // Slide Up Transition
+                        preloader.classList.add('-translate-y-full');
+                        // Re-enable scrolling
+                        document.body.classList.remove('overflow-hidden');
+                        
+                        // Start the Hero Typewriter ONLY after preloader reveals the site
+                        setTimeout(() => {
+                            typeEffect();
+                        }, 800); // wait for slide animation to mostly finish
+                    }, 600);
+                }
+            }, 40); // Speed of updates
+        });
 
         // Chat Input Logic
         function openAiChat() {
